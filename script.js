@@ -2,6 +2,7 @@ let mainList = document.getElementById("main-list");
 let categoryDrop = document.getElementById("categoryDrop");
 let sortByPrice = document.getElementById("sortByPrice");
 let loadMore = document.getElementById("loadMore");
+let searchInput = document.getElementById("searchInput");
 
 async function getFakeStoreData(loadMore = false) {
     try {
@@ -20,13 +21,13 @@ getFakeStoreData();
 
 sortByPrice.addEventListener("click", () => {
     const storedData = JSON.parse(localStorage.getItem("fakeStoreProducts"));
-    createListItem(storedData, sortByPrice.value);
+    sortByPrice.value && createListItem(storedData, sortByPrice.value);
 })
 
 categoryDrop.addEventListener("click", () => {
     let proudctCards = document.querySelectorAll(".proudct-card");
     proudctCards.forEach( (card) => {
-        if (card.getElementsByTagName('p')[1].innerHTML !== categoryDrop.value) {
+        if (categoryDrop.value && card.getElementsByTagName('p')[1].innerHTML !== categoryDrop.value) {
             card.parentElement.style.display = "none"
         } else {
             card.parentElement.style.display = "list-item"
@@ -38,9 +39,21 @@ loadMore.addEventListener("click", () => {
     getFakeStoreData(true);
 })
 
+searchInput.addEventListener("keyup", () => {
+    mainList.childNodes.forEach((item) => {
+        let productName = item.firstChild.childNodes[1].innerHTML.toUpperCase();
+        if(!productName.includes(searchInput.value.toUpperCase())){
+            item.style.display = "none"
+        } else {
+            item.style.display = "list-item"
+        }
+    })
+    
+})
+
 function createListItem(data, sort = null, loadMore = false ) {
     if(sort){
-        data = sortProducts(data, sort);
+        data = sortProductsByPrice(data, sort);
         mainList.innerHTML = "";
     }
 
@@ -48,7 +61,6 @@ function createListItem(data, sort = null, loadMore = false ) {
         mainList.innerHTML = "";
     }
     data.forEach(product => {
-
         let listitem = document.createElement("li");
         let productCard = document.createElement("div");
         productCard.className = "proudct-card";
@@ -75,7 +87,6 @@ async function getProductCategories() {
         const response  = await fetch("https://fakestoreapi.com/products/categories");
         const data = await response.json();
         createCategoryOptions(data);
-
     } catch (error) {
         console.log(error)
     }
@@ -86,16 +97,15 @@ function createCategoryOptions(data) {
         let option = document.createElement("option");
         option.value = category;
         option.textContent = category;
-
         categoryDrop.appendChild(option);
     });
 }
 
-function sortProducts(data, sort){
+function sortProductsByPrice(data, value){
     return data.sort( (a, b) => {
         const priceA = parseFloat(a.price);
         const priceB = parseFloat(b.price);
-        return sort === "asc" ? priceA - priceB : priceB - priceA; 
+        return value === "asc" ? priceA - priceB : priceB - priceA; 
     })
 }
 

@@ -19,7 +19,8 @@ ul {
 select {
     padding: 5px;
     background: antiquewhite;
-    margin: 5px
+    margin: 5px;
+    cursor: pointer;
 }
 
 .sortAndFilterBox {
@@ -28,6 +29,7 @@ select {
     border: 0.1px solid gray;
     font-size: x-large;
     background: burlywood;
+    cursor: pointer;
 }
 
 .proudct-card {
@@ -55,4 +57,8 @@ ul{
 
 .loadMoreParent{
     display: grid;
+}
+
+#searchInput {
+    padding: inherit;
 }

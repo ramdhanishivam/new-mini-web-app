@@ -6,14 +6,15 @@
     <body>
         <div class="main-container">
         <div class="sortAndFilterBox">
-            <label>Choose category</label>
             <select name="category" id="categoryDrop">
+                <option value="">Filter by Category</option>
             </select>
-            <label>Sort</label>
             <select name="sorting" id="sortByPrice">
+                <option value="">Sort By</option>
                 <option value="asc">Ascending</option>
                 <option value="desc">Descending</option>
             </select>
+            <input id="searchInput" type="text" placeholder="Search" >
         </div>
         <ul id="main-list"></ul>
         <div class="loadMoreParent">
