@@ -1,14 +1,58 @@
-.main-container {
-    color: black;
-}
 .proudct-card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 300px;
-    margin: auto;
     text-align: center;
+    padding: 5px;
+    margin: 10px;
+    height: 350px;
 }
 
 .proudct-card > img {
-    height: 10px;
-    width: 100px;
+    height: 200px;
+    width: 200px;
+    background-color: azure;
+}
+
+ul {
+    list-style-type: none;
+}
+
+select {
+    padding: 5px;
+    background: antiquewhite;
+    margin: 5px
+}
+
+.sortAndFilterBox {
+    margin: 10px;
+    padding: 10px;
+    border: 0.1px solid gray;
+    font-size: x-large;
+    background: burlywood;
+}
+
+.proudct-card {
+    width: 250px;
+    height: 380px;
+}
+
+ul{
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-content: center;
+}
+
+#loadMore {
+    border: 3.1px solid floralwhite;
+    padding-right: 100px;
+    padding-left: 100px;
+    background: burlywood;
+    font-size: larger;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+
+.loadMoreParent{
+    display: grid;
 }

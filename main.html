@@ -5,10 +5,20 @@
     </head>
     <body>
         <div class="main-container">
-         <label>Choose category</label>
-         <select name="category" id="categoryDrop">
-         </select>
-         <ul id="main-list"></ul>
+        <div class="sortAndFilterBox">
+            <label>Choose category</label>
+            <select name="category" id="categoryDrop">
+            </select>
+            <label>Sort</label>
+            <select name="sorting" id="sortByPrice">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+        <ul id="main-list"></ul>
+        <div class="loadMoreParent">
+            <button id="loadMore">Load More</button>
+        </div>
         </div>
     </body>
     <script src="script.js" ></script>

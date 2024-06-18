@@ -1,20 +1,52 @@
 let mainList = document.getElementById("main-list");
-let categoryDrop = document.getElementById("categoryDrop")
+let categoryDrop = document.getElementById("categoryDrop");
+let sortByPrice = document.getElementById("sortByPrice");
+let loadMore = document.getElementById("loadMore");
 
-async function getFakeStoreData(){
-    try{
-        const response  = await fetch("https://fakestoreapi.com/products");
+async function getFakeStoreData(loadMore = false) {
+    try {
+        let apiURL = "https://fakestoreapi.com/products";
+        apiURL = !loadMore ? apiURL +"?limit=10" : apiURL;
+        const response  = await fetch(apiURL);
         const data = await response.json();
-        createListItem(data);
-
-    } catch (error){
+        localStorage.setItem('fakeStoreProducts', JSON.stringify(data));
+        createListItem(data, null ,loadMore);
+    } catch (error) {
         console.log(error)
     }
 }
 
 getFakeStoreData();
 
-function createListItem(data) {
+sortByPrice.addEventListener("click", () => {
+    const storedData = JSON.parse(localStorage.getItem("fakeStoreProducts"));
+    createListItem(storedData, sortByPrice.value);
+})
+
+categoryDrop.addEventListener("click", () => {
+    let proudctCards = document.querySelectorAll(".proudct-card");
+    proudctCards.forEach( (card) => {
+        if (card.getElementsByTagName('p')[1].innerHTML !== categoryDrop.value) {
+            card.parentElement.style.display = "none"
+        } else {
+            card.parentElement.style.display = "list-item"
+        }
+    }) 
+})
+
+loadMore.addEventListener("click", () => {
+    getFakeStoreData(true);
+})
+
+function createListItem(data, sort = null, loadMore = false ) {
+    if(sort){
+        data = sortProducts(data, sort);
+        mainList.innerHTML = "";
+    }
+
+    if(loadMore){
+        mainList.innerHTML = "";
+    }
     data.forEach(product => {
 
         let listitem = document.createElement("li");
@@ -38,13 +70,13 @@ function createListItem(data) {
     });
 }
 
-async function getProductCategories(){
-    try{
+async function getProductCategories() {
+    try {
         const response  = await fetch("https://fakestoreapi.com/products/categories");
         const data = await response.json();
         createCategoryOptions(data);
 
-    } catch (error){
+    } catch (error) {
         console.log(error)
     }
 }
@@ -57,6 +89,14 @@ function createCategoryOptions(data) {
 
         categoryDrop.appendChild(option);
     });
+}
+
+function sortProducts(data, sort){
+    return data.sort( (a, b) => {
+        const priceA = parseFloat(a.price);
+        const priceB = parseFloat(b.price);
+        return sort === "asc" ? priceA - priceB : priceB - priceA; 
+    })
 }
 
 getProductCategories();
